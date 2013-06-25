@@ -66,13 +66,13 @@ var defaults=new ViewConfiguration
 		/// The default namespace to use for the generated view class
 		/// this can be overridden
 		/// </summary>
-		DefaultNamespace="Earlz.LucidMVC.MyViews",
+		DefaultNamespace="Earlz.NetBounce.Views",
 		/// <summary>
 		/// Controls whether the view is rendered directly to the DefaultWriter or if it is first built-up into a string
 		/// Performance comparisons between the two have not been conclusive thus far
 		/// This can be overridden
 		/// </summary>
-		RenderDirectly=false,
+		RenderDirectly=true,
 		/// <summary>
 		/// Will generate special code around `{= =}` blocks to catch null references and return empty string instead of throwing an exception
 		/// This can have a significant performance impact for views with heavy loops

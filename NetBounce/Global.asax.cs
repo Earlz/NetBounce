@@ -17,7 +17,10 @@ namespace Earlz.NetBounce
 
 			var landing=router.Controller((c) => new LandingController(c));
 			landing.Handles("/").With(x=>x.Landing());
-
+			var bounce=router.Controller(c => new BounceController(c));
+			bounce.Handles("/bounce/post/{key}").With(x=>x.Post(x.RouteParams["key"])).Allows("POST");
+			bounce.Handles("/bounce/dequeue/{key}").With(x=>x.Dequeue(x.RouteParams["key"]));
+			bounce.Handles("/bounce/view/{key}").With(x=>x.View(x.RouteParams["key"]));
 		}
 
 		protected void Session_Start(Object sender, EventArgs e)

@@ -53,6 +53,8 @@
     <Content Include="Global.asax" />
     <Content Include="web.config" />
     <Content Include="views\Landing.html" />
+    <Content Include="views\BounceView.html" />
+    <Content Include="static\style.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">

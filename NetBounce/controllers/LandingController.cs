@@ -1,6 +1,6 @@
 using System;
 using Earlz.LucidMVC;
-using Earlz.LucidMVC.MyViews;
+using Earlz.NetBounce.Views;
 
 namespace Earlz.NetBounce
 {

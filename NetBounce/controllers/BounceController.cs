@@ -6,6 +6,7 @@ using Earlz.LucidMVC.ViewEngine;
 using System.Threading;
 using System.Text;
 using Newtonsoft.Json;
+using Earlz.NetBounce.Views;
 
 namespace Earlz.NetBounce
 {
@@ -98,9 +99,9 @@ namespace Earlz.NetBounce
 			string json=JsonConvert.SerializeObject(requests);
 			return new WrapperView(json);
 		}
-		public ILucidView View()
+		public ILucidView View(string key)
 		{
-			return null;
+			return new BounceView{key=key};
 		}
 	}
 }
