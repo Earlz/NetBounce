@@ -1,3 +1,4 @@
+using Earlz.LucidMVC;
 
 namespace Earlz.NetBounce
 {
@@ -9,9 +10,14 @@ namespace Earlz.NetBounce
 
 	public class Global : System.Web.HttpApplication
 	{
-		
+		Router router;
 		protected void Application_Start(Object sender, EventArgs e)
 		{
+			router=new Router();
+
+			var landing=router.Controller((c) => new LandingController(c));
+			landing.Handles("/").With(x=>x.Landing());
+
 		}
 
 		protected void Session_Start(Object sender, EventArgs e)
@@ -20,6 +26,10 @@ namespace Earlz.NetBounce
 
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
+			if(router.Execute(new AspNetServerContext()))
+			{
+				CompleteRequest();
+			}
 		}
 
 		protected void Application_EndRequest(Object sender, EventArgs e)

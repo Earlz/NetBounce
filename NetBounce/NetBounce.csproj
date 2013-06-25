@@ -49,6 +49,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="web.config" />
+    <Content Include="views\Landing.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -57,10 +58,12 @@
     <Compile Include="views\ViewGenerator.cs">
       <DependentUpon>ViewGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="controllers\LandingController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="views\" />
     <Folder Include="static\" />
+    <Folder Include="controllers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="views\ViewGenerator.tt">
