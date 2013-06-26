@@ -81,6 +81,7 @@ namespace Earlz.NetBounce
 		}
 		public ILucidView Dequeue(string key)
 		{
+			Context.ContentType="application/json";
 			RequestData data;
 			if(!State.TryGetValue(key, out data))
 			{

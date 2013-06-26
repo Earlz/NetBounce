@@ -61,9 +61,33 @@ __Write(@"
 __OutputVariable(__v);
 }
 __Write(@"'</title>
+		<script src=""//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js""></script>
 	</head>
 	<body>
-		
+		<div>data will show up below</div>
+		<div id=""output""></div>
+<script type=""text/javascript"">
+var refresh=function(){
+	$.getJSON('/bounce/dequeue/");
+{
+                object __v;
+                
+
+                    __v=key;
+                
+__OutputVariable(__v);
+}
+__Write(@"', function(data) {
+	  for(var i=0;i<data.length;i++)
+	  {
+	    $('#output').append('<div id=""data"">' + data[i] + '</div>');
+	  }
+	 
+	  setTimeout(refresh, 15*1000);
+	});
+};
+refresh();
+</script>
 	</body>
 </html>
 ");
