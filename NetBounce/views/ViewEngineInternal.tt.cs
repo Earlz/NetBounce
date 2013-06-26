@@ -49,13 +49,13 @@ namespace Earlz.LucidMVC.ViewEngine.Internal
 		/// The default namespace to use for the generated view class
 		/// this can be overridden
 		/// </summary>
-		public string DefaultNamespace="Earlz.NetBounce.Views";
+		public string DefaultNamespace="Earlz.LucidMVC.MyViews";
 		/// <summary>
 		/// Controls whether the view is rendered directly to the DefaultWriter or if it is first built-up into a string
 		/// Performance comparisons between the two have not been conclusive thus far
 		/// This can be overridden
 		/// </summary>
-		public bool RenderDirectly=true;
+		public bool RenderDirectly=false;
 		/// <summary>
 		/// Will generate special code around `{= =}` blocks to catch null references and return empty string instead of throwing an exception
 		/// This can have a significant performance impact for views with heavy loops
@@ -308,6 +308,7 @@ namespace Earlz.LucidMVC.ViewEngine.Internal
             ");
             return end+=3;
         }
+		string Initializations="";
         int ParseKeyword(int start){
             int end=Input.Substring(start+1).IndexOf("!}");
             if(end==-1){
@@ -323,6 +324,9 @@ namespace Earlz.LucidMVC.ViewEngine.Internal
                 keyword=block.Substring(0,stop);
             }
             switch(keyword){
+				case "init":
+					Initializations+=block.Substring(stop+1);
+				break;
                 case "base":
                     BaseClass=block.Substring(stop+1);
                 break;
@@ -572,7 +576,7 @@ public void Generate()
 	m.ReturnType="void";
 	m.Params.Add(new MethodParam{Name="outputStream", Type="System.IO.TextWriter"});
 	m.Name="RenderView";
-	m.Body=
+	m.Body=Initializations+
 		@"
 	__Writer=outputStream;
 	if(Layout==null){

@@ -17,6 +17,7 @@ namespace Earlz.NetBounce
 			public List<string> Data;
 			public DateTime LastPosted;
 			public bool Received=false;
+			public int Size=0;
 		}
 		const int DataTimeout=60*1000;
 		static ConcurrentDictionary<string, RequestData> State;
@@ -44,7 +45,8 @@ namespace Earlz.NetBounce
 					{
 						if((DateTime.Now - data.LastPosted).TotalMilliseconds > DataTimeout)
 						{
-							State.TryRemove(key, out data);
+							RequestData trash;
+							State.TryRemove(key, out trash);
 						}
 					}
 				}
@@ -54,6 +56,8 @@ namespace Earlz.NetBounce
 		public BounceController(RequestContext c) : base(c)
 		{
 		}
+		const int SizeLimit=1024*128;
+		const int DataLimit=1024*512;
 		public ILucidView Post(string key)
 		{
 			RequestData data;
@@ -74,8 +78,18 @@ namespace Earlz.NetBounce
 			}
 			lock(data)
 			{
+				if(data.Size>DataLimit)
+				{
+					throw new ApplicationException("you've exceeded your data limit");
+				}
 				data.LastPosted=DateTime.Now;
-				data.Data.Add(Context.BarePost);
+				string d=Context.BarePost;
+				if(d.Length>SizeLimit)
+				{
+					throw new ApplicationException("Please try to restrain your content to 128K or less");
+				}
+				data.Data.Add(d);
+				data.Size+=d.Length;
 			}
 			return new WrapperView("received");
 		}
@@ -96,6 +110,7 @@ namespace Earlz.NetBounce
 				}
 				requests=data.Data;
 				data.Data=new List<string>();
+				data.Size=0;
 			}
 			string json=JsonConvert.SerializeObject(requests);
 			return new WrapperView(json);

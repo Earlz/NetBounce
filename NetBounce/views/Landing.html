@@ -1,12 +1,26 @@
-<!DOCTYPE HTML5>
-
-<html>
-	<head>
-		<title>NetBounce</title>
-	</head>
-	<body>
-	<div>
-		This is a web service which allows you to bounce HTTP requests from a local (or remote) service and into your browser. 
+{!layout LayoutView!}{!layout_field Content!}
+{@
+	key as string;
+@}
+{!init Layout.Title="NetBounce -- Like Moon Bouncing, but with HTTP requests"; !}
+	<div id="landing-content">
+		
+		<p>
+			This is a web service which allows you to bounce HTTP requests from a local (or remote) service to your browser for easy inspection
+		</p>
+		<p>
+			Your randomly generated key is <a href="/bounce/view/{=key=}">{=key=}</a>
+		</p>
+		<p>
+			To bounce data into your view page, POST something to <a href="/bounce/post/{=key=}">/bounce/post/{=key=}</a>
+		</p>
+		<p>
+			This is currently quite limited. The post URL only allows POST requests. It only dumps the raw POST data, not headers or anything else. It also has a hard size limit of 128K, at which point I'll kindly ask you not to do that.
+		</p>
+		<p>
+			Also, this isn't Dropbox. Your data will expire after 1 minute on the server. It may expire sooner depending on how much data you are sending. The View page checks for new data every 15 seconds
+		</p>
+		<p>
+			Yes, I know the HTTP error codes are completely incorrect right now. The MVC framework behind this, <a href="https://bitbucket.org/earlz/lucidmvc">LucidMVC</a>, is still pretty much pre-alpha. I'm surprised it works at all sometimes(although it is fast!)
+		</p>
 	</div>
-	</body>
-</html>

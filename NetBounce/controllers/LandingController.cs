@@ -11,7 +11,7 @@ namespace Earlz.NetBounce
 		}
 		public Landing Landing()
 		{
-			return new Landing();
+			return new Landing{key=Guid.NewGuid().ToString()};
 		}
 
 	}

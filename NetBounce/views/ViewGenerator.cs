@@ -31,7 +31,7 @@ namespace Earlz.NetBounce.Views{
                 ///<summary>
         ///This is the layout of the given view (master page)
         ///</summary>
-            public ILucidView Layout{
+            public LayoutView Layout{
         get;
         set;
         }
@@ -46,27 +46,27 @@ namespace Earlz.NetBounce.Views{
 
          void BuildOutput()
         {
-__Write(@"<!DOCTYPE HTML5>
+__Write(@"");
+__Write(@"");
+__Write(@"
 ");
 __Write(@"
-<html>
-	<head>
-		<title>Viewing bounce of '");
-{
-                object __v;
-                
-
-                    __v=key;
-                
-__OutputVariable(__v);
-}
-__Write(@"'</title>
-		<script src=""//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js""></script>
-	</head>
-	<body>
+");
+__Write(@"
 		<div>data will show up below</div>
 		<div id=""output""></div>
 <script type=""text/javascript"">
+String.prototype.escape = function() {
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+    return this.replace(/[&<>]/g, function(tag) {
+        return tagsToReplace[tag] || tag;
+    });
+};
+
 var refresh=function(){
 	$.getJSON('/bounce/dequeue/");
 {
@@ -80,7 +80,7 @@ __OutputVariable(__v);
 __Write(@"', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div id=""data"">' + data[i] + '</div>');
+	    $('#output').append('<div id=""data"">' + data[i].escape() + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);
@@ -88,14 +88,12 @@ __Write(@"', function(data) {
 };
 refresh();
 </script>
-	</body>
-</html>
 ");
 
         }
          void __Init()
         {
-
+Layout=new LayoutView(); Layout.Content=this;
         }
         public  BounceView()
         {
@@ -111,7 +109,7 @@ v.RenderView(__Writer);
         }
         public override void RenderView(System.IO.TextWriter outputStream)
         {
-
+Layout.Title="Viewing bounce of '"+key+"'"; 
 	__Writer=outputStream;
 	if(Layout==null){
         BuildOutput();
@@ -181,6 +179,202 @@ namespace Earlz.NetBounce.Views{
     public class Landing: Earlz.LucidMVC.ViewEngine.LucidViewBase
     {
                 ///<summary>
+        ///
+        ///</summary>
+            public string key{
+        get;
+        set;
+        }
+
+                ///<summary>
+        ///This is the layout of the given view (master page)
+        ///</summary>
+            public LayoutView Layout{
+        get;
+        set;
+        }
+
+                ///<summary>
+        ///The "Flash" notification text(passes through to the layout
+        ///</summary>
+            public override string Flash{
+        get{return Layout.Flash;}
+        set{Layout.Flash=value;}
+        }
+
+         void BuildOutput()
+        {
+__Write(@"");
+__Write(@"");
+__Write(@"
+");
+__Write(@"
+");
+__Write(@"
+	<div id=""landing-content"">
+		
+		<p>
+			This is a web service which allows you to bounce HTTP requests from a local (or remote) service to your browser for easy inspection
+		</p>
+		<p>
+			Your randomly generated key is <a href=""/bounce/view/");
+{
+                object __v;
+                
+
+                    __v=key;
+                
+__OutputVariable(__v);
+}
+__Write(@""">");
+{
+                object __v;
+                
+
+                    __v=key;
+                
+__OutputVariable(__v);
+}
+__Write(@"</a>
+		</p>
+		<p>
+			To bounce data into your view page, POST something to <a href=""/bounce/post/");
+{
+                object __v;
+                
+
+                    __v=key;
+                
+__OutputVariable(__v);
+}
+__Write(@""">/bounce/post/");
+{
+                object __v;
+                
+
+                    __v=key;
+                
+__OutputVariable(__v);
+}
+__Write(@"</a>
+		</p>
+		<p>
+			This is currently quite limited. The post URL only allows POST requests. It only dumps the raw POST data, not headers or anything else. It also has a hard size limit of 128K, at which point I'll kindly ask you not to do that.
+		</p>
+		<p>
+			Also, this isn't Dropbox. Your data will expire after 1 minute on the server. It may expire sooner depending on how much data you are sending. The View page checks for new data every 15 seconds
+		</p>
+		<p>
+			Yes, I know the HTTP error codes are completely incorrect right now. The MVC framework behind this, <a href=""https://bitbucket.org/earlz/lucidmvc"">LucidMVC</a>, is still pretty much pre-alpha. I'm surprised it works at all sometimes(although it is fast!)
+		</p>
+	</div>
+");
+
+        }
+         void __Init()
+        {
+Layout=new LayoutView(); Layout.Content=this;
+        }
+        public  Landing()
+        {
+__Init();
+        }
+        protected virtual void __Write(string s)
+        {
+if(__Writer!=null){ __Writer.Write(s); }
+        }
+        protected virtual void __Write(ILucidView v)
+        {
+v.RenderView(__Writer);
+        }
+        public override void RenderView(System.IO.TextWriter outputStream)
+        {
+Layout.Title="NetBounce -- Like Moon Bouncing, but with HTTP requests"; 
+	__Writer=outputStream;
+	if(Layout==null){
+        BuildOutput();
+		return;
+	}
+	if(__InLayout){
+        //If we get here, then the layout is currently trying to render itself(and we are being rendered as a partial/sub view)
+        __InLayout=false;
+        BuildOutput();
+	}else{
+        //otherwise, we are here and someone called RenderView on us(and we have a layout to render first)
+        __InLayout=true;
+        Layout.RenderView(__Writer); 
+	}
+//This should recurse no more than 2 times
+//Basically, this will go to hell if there is ever more than 1 partial view with a Layout set.
+        }
+        protected void __OutputVariable(object v)
+        {
+
+            {
+                if(v!=null)
+                {
+                    var e=v as System.Collections.IEnumerable;
+                    if (e!=null)
+                    {
+                        foreach(var item in e){ 
+                            var view=item as Earlz.LucidMVC.ViewEngine.ILucidView;
+                            if(view!=null){
+                                __Write(view);
+                            }else{
+                                __Write(item.ToString());
+                            }
+                        }
+                    }else{
+                        var view=v as Earlz.LucidMVC.ViewEngine.ILucidView;
+                        if(view!=null){
+                            __Write(view);
+                        }else{
+                            __Write(v.ToString());
+                        }
+                    }
+                }        
+            }
+        }
+                ///<summary>
+        ///For internal use only!
+        ///</summary>
+         bool __InLayout=false;
+                ///<summary>
+        ///For internal use only!
+        ///</summary>
+         TextWriter __Writer;
+                ///<summary>
+        ///For internal use only!
+        ///</summary>
+         bool __RenderDirectly=true;
+
+    }
+}
+
+/*File: LayoutView */
+namespace Earlz.NetBounce.Views{
+        ///<summary>
+        ///
+        ///</summary>
+    public class LayoutView: Earlz.LucidMVC.ViewEngine.LucidViewBase
+    {
+                ///<summary>
+        ///
+        ///</summary>
+            public string Title{
+        get;
+        set;
+        }
+
+                ///<summary>
+        ///
+        ///</summary>
+            public ILucidView Content{
+        get;
+        set;
+        }
+
+                ///<summary>
         ///This is the layout of the given view (master page)
         ///</summary>
             public ILucidView Layout{
@@ -199,25 +393,45 @@ namespace Earlz.NetBounce.Views{
          void BuildOutput()
         {
 __Write(@"<!DOCTYPE HTML5>
-
+");
+__Write(@"
 <html>
 	<head>
-		<title>NetBounce</title>
-	</head>
+		<title>");
+{
+                object __v;
+                
+
+                    __v=Title;
+                
+__OutputVariable(__v);
+}
+__Write(@"</title>
+		<link rel=""stylesheet"" type=""text/css"" media=""all"" href=""/static/style.css"" />
+		<script src=""//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js""></script>
+		</head>
 	<body>
-	<div>
-		This is a web service which allows you to bounce HTTP requests from a local (or remote) service and into your browser. 
+	<div id=""content"">
+		");
+{
+                object __v;
+                
+
+                    __v=Content;
+                
+__OutputVariable(__v);
+}
+__Write(@"
 	</div>
 	</body>
-</html>
-");
+</html>");
 
         }
          void __Init()
         {
 
         }
-        public  Landing()
+        public  LayoutView()
         {
 __Init();
         }
