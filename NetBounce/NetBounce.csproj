@@ -62,6 +62,7 @@
     <Content Include="static\style.css" />
     <Content Include="views\LayoutView.html" />
     <Content Include="static\formatters.js" />
+    <Content Include="static\vkbeautify.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">

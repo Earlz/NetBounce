@@ -57,6 +57,8 @@ __Write(@"
 __Write(@"
 ");
 __Write(@"
+");
+__Write(@"
 
 <div>formatter: 
 <p id=""formatter_container"">
@@ -103,7 +105,7 @@ __OutputVariable(__v);
 __Write(@"', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div id=""data"">' + formatters[currentFormatter].func(data[i].escape()) + '</div>');
+	    $('#output').append('<div id=""data"">' + formatters[currentFormatter].func(data[i].escape(), data[i]) + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);
@@ -132,7 +134,7 @@ v.RenderView(__Writer);
         }
         public override void RenderView(System.IO.TextWriter outputStream)
         {
-Layout.Title="Viewing bounce of '"+key+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sunburst""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; 
+Layout.Title="Viewing bounce of '"+key+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/vkbeautify.js""></script>"; 
 	__Writer=outputStream;
 	if(Layout==null){
         BuildOutput();
