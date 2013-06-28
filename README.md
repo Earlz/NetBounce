@@ -2,6 +2,10 @@
 
 This is a utility so that you can easily test HTTP POST requests without having to run a server or use something like Fiddler. 
 
+# Live Version
+
+You can see a live version of this in action at http://netbounce.earlz.net ... assuming it doesn't choke my server out too much
+
 # Plans
 
 Get it working!
