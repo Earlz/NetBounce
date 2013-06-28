@@ -53,9 +53,32 @@ __Write(@"
 __Write(@"
 ");
 __Write(@"
-		<div>data will show up below</div>
-		<div id=""output""></div>
+");
+__Write(@"
+");
+__Write(@"
+
+<div>formatter: 
+<p id=""formatter_container"">
+</p>
+</div>
+<div>data will show up below</div>
+<div id=""output""></div>
 <script type=""text/javascript"">
+var currentFormatter=0;
+setTimeout(function(){
+	var s = $('<select id=""formatselect""/>');
+
+	for(var i=0;i<formatters.length;i++) {
+		item=formatters[i];
+	    $('<option />', {value: i, text: item.name}).appendTo(s);
+	}
+	s.appendTo('#formatter_container'); // or wherever it should be
+	$(""#formatselect"").change(function(){
+	    currentFormatter=parseInt($(this).children("":selected"").val());
+	    return true;
+	});
+},0);
 String.prototype.escape = function() {
     var tagsToReplace = {
         '&': '&amp;',
@@ -80,7 +103,7 @@ __OutputVariable(__v);
 __Write(@"', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div id=""data"">' + data[i].escape() + '</div>');
+	    $('#output').append('<div id=""data"">' + formatters[currentFormatter].func(data[i].escape()) + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);
@@ -109,7 +132,7 @@ v.RenderView(__Writer);
         }
         public override void RenderView(System.IO.TextWriter outputStream)
         {
-Layout.Title="Viewing bounce of '"+key+"'"; 
+Layout.Title="Viewing bounce of '"+key+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sunburst""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; 
 	__Writer=outputStream;
 	if(Layout==null){
         BuildOutput();
@@ -212,7 +235,7 @@ __Write(@"
 ");
 __Write(@"
 	<div id=""landing-content"">
-		
+		foooo
 		<p>
 			This is a web service which allows you to bounce HTTP requests from a local (or remote) service to your browser for easy inspection
 		</p>
@@ -375,6 +398,14 @@ namespace Earlz.NetBounce.Views{
         }
 
                 ///<summary>
+        ///
+        ///</summary>
+            public string ExtraScripts{
+        get;
+        set;
+        }
+
+                ///<summary>
         ///This is the layout of the given view (master page)
         ///</summary>
             public ILucidView Layout{
@@ -409,6 +440,16 @@ __OutputVariable(__v);
 __Write(@"</title>
 		<link rel=""stylesheet"" type=""text/css"" media=""all"" href=""/static/style.css"" />
 		<script src=""//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js""></script>
+		");
+{
+                object __v;
+                
+
+                    __v=ExtraScripts;
+                
+__OutputVariable(__v);
+}
+__Write(@"
 		</head>
 	<body>
 	<div id=""content"">

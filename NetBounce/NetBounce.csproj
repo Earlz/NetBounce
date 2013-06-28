@@ -19,6 +19,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="/usr/local/bin/mono-t4 ${ProjectDir}/views/ViewGenerator.tt ${ProjectDir}/views/ViewGenerator.tt" workingdir="${ProjectDir}/views" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -56,6 +61,7 @@
     <Content Include="views\BounceView.html" />
     <Content Include="static\style.css" />
     <Content Include="views\LayoutView.html" />
+    <Content Include="static\formatters.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">

@@ -3,9 +3,30 @@
 	key as string;
 @}
 {!init Layout.Title="Viewing bounce of '"+key+"'"; !}
-		<div>data will show up below</div>
-		<div id="output"></div>
+{!init Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sunburst""></script>"; !}
+{!init Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; !}
+
+<div>formatter: 
+<p id="formatter_container">
+</p>
+</div>
+<div>data will show up below</div>
+<div id="output"></div>
 <script type="text/javascript">
+var currentFormatter=0;
+setTimeout(function(){
+	var s = $('<select id="formatselect"/>');
+
+	for(var i=0;i<formatters.length;i++) {
+		item=formatters[i];
+	    $('<option />', {value: i, text: item.name}).appendTo(s);
+	}
+	s.appendTo('#formatter_container'); // or wherever it should be
+	$("#formatselect").change(function(){
+	    currentFormatter=parseInt($(this).children(":selected").val());
+	    return true;
+	});
+},0);
 String.prototype.escape = function() {
     var tagsToReplace = {
         '&': '&amp;',
@@ -21,7 +42,7 @@ var refresh=function(){
 	$.getJSON('/bounce/dequeue/{=key=}', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div id="data">' + data[i].escape() + '</div>');
+	    $('#output').append('<div id="data">' + formatters[currentFormatter].func(data[i].escape()) + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);
