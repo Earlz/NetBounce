@@ -4,13 +4,25 @@ This is a utility so that you can easily test HTTP POST requests without having 
 
 # Live Version
 
-You can see a live version of this in action at http://netbounce.earlz.net ... assuming it doesn't choke my server out too much
+You can see a live version of this in action at http://netbounce.earlz.net
 
-# Plans
+# SSL Live Version
 
-Get it working!
+You can also use the SSL live version of this at https://netbounce.earlz.net
 
-Eventually, there will be formatters and I'll gladly take push requests for additional formatters
+# Formatters
+
+You can add a new formatter by changing `formatters.js`. I currently have Raw, JSON, and XML implemented. If you want to implement a new one all you have to do is add on to formatters.js. 
+
+Here is an example:
+
+	formatters.push({name: 'My Formatter', func: myFormatter}); /*fill out your formatter name and the function */
+
+	function myFormatter(data, unescaped){
+		return '<pre> I'm magical! '+data+'</pre>';
+	}
+
+`data` is the escaped and safe version, `unescaped` is the unsafe unescaped data. `unescaped` is particularly useful when dealing with XML formats. 
 
 # How it works
 
