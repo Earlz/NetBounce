@@ -59,6 +59,8 @@ __Write(@"
 __Write(@"
 ");
 __Write(@"
+");
+__Write(@"
 <div>
 <h1>Bounce of '");
 {
@@ -161,7 +163,7 @@ v.RenderView(__Writer);
         }
         public override void RenderView(System.IO.TextWriter outputStream)
         {
-Layout.Title="Viewing bounce of '"+HttpUtility.HtmlEncode(key)+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/vkbeautify.js""></script>"; 
+Layout.Title="Viewing bounce of '"+HttpUtility.HtmlEncode(key)+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/vkbeautify.js""></script>"; Layout.Analytics=false; 
 	__Writer=outputStream;
 	if(Layout==null){
         BuildOutput();
@@ -258,6 +260,8 @@ namespace Earlz.NetBounce.Views{
         {
 __Write(@"");
 __Write(@"");
+__Write(@"
+");
 __Write(@"
 ");
 __Write(@"
@@ -369,7 +373,7 @@ v.RenderView(__Writer);
         }
         public override void RenderView(System.IO.TextWriter outputStream)
         {
-Layout.Title="NetBounce -- Like Moon Bouncing, but with HTTP requests"; 
+Layout.Title="NetBounce -- Like Moon Bouncing, but with HTTP requests"; Layout.Analytics=true; 
 	__Writer=outputStream;
 	if(Layout==null){
         BuildOutput();
@@ -463,6 +467,14 @@ namespace Earlz.NetBounce.Views{
         }
 
                 ///<summary>
+        ///
+        ///</summary>
+            public bool Analytics{
+        get;
+        set;
+        }
+
+                ///<summary>
         ///This is the layout of the given view (master page)
         ///</summary>
             public ILucidView Layout{
@@ -509,6 +521,9 @@ __OutputVariable(__v);
 __Write(@"
 		</head>
 	<body>
+");
+if(Analytics){ //don't include analytics everywhere!
+__Write(@"
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -519,6 +534,9 @@ __Write(@"
   ga('send', 'pageview');
 
 </script>
+");
+}
+__Write(@"
 	<div id=""content"">
 		");
 {
