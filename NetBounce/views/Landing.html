@@ -4,7 +4,7 @@
 @}
 {!init Layout.Title="NetBounce -- Like Moon Bouncing, but with HTTP requests"; !}
 	<div id="landing-content">
-		foooo
+		<h1> NetBounce</h1>
 		<p>
 			This is a web service which allows you to bounce HTTP requests from a local (or remote) service to your browser for easy inspection
 		</p>
@@ -15,12 +15,31 @@
 			To bounce data into your view page, POST something to <a href="/bounce/post/{=key=}">/bounce/post/{=key=}</a>
 		</p>
 		<p>
-			This is currently quite limited. The post URL only allows POST requests. It only dumps the raw POST data, not headers or anything else. It also has a hard size limit of 128K, at which point I'll kindly ask you not to do that.
+			The view page will refresh itself every 15 seconds and pull down any data for your key on my server. 
 		</p>
 		<p>
-			Also, this isn't Dropbox. Your data will expire after 1 minute on the server. It may expire sooner depending on how much data you are sending. The View page checks for new data every 15 seconds
+			This is currently quite limited. The post URL only allows POST requests. It only dumps the raw POST data, not headers or anything else. 
+		</p>
+		<p>
+			This web service is available via <a href="https://netbounce.earlz.net">HTTPS</a>. 
+			This can be handy for testing of clients which do not permit invalid certificates when sending to an HTTPS server.
+		</p>
+		<h1>Warnings: </h1>
+		<p>
+			<b>Do not send any secret data here</b>. I can't guarantee that no one else is listening in. Although I don't make the list of currently active keys public,
+			If someone were to guess your key, they would be able to get all data you send. I can not guarantee any privacy on the data you send.
+		</p>
+		<p>
+			This isn't Dropbox. Your data will expire after 1 minute on the server. It may expire sooner depending on how much data you are sending. The View page checks for new data every 15 seconds
+		</p>
+		<p>
+			Do not send requests larger than 128Kb. I will discard them.
 		</p>
 		<p>
 			Yes, I know the HTTP error codes are completely incorrect right now. The MVC framework behind this, <a href="https://bitbucket.org/earlz/lucidmvc">LucidMVC</a>, is still pretty much pre-alpha. I'm surprised it works at all sometimes(although it is fast!)
+		</p>
+		<p>
+			Please don't ruin the party by abusing this service. I have huge bandwidth limits and this puts very little load on my server. 
+			If you make it to where I have to worry about the load, then I'll just take it offline. It would not be difficult to DDoS this service, but please don't :)
 		</p>
 	</div>
