@@ -290,7 +290,7 @@ __OutputVariable(__v);
 __Write(@"</a>
 		</p>
 		<p>
-			To bounce data into your view page, POST something to <a href=""/bounce/post/");
+			To bounce data into your view page, make a request to <a href=""/bounce/post/");
 {
                 object __v;
                 
@@ -311,16 +311,17 @@ __OutputVariable(__v);
 __Write(@"</a>
 		</p>
 		<p>
-			You can also use your own key by just going to /bounce/view/foobar (where foobar is your key). 
+			This can accept POST, PUT, GET, and DELETE methods. It will display the HTTP headers, HTTP method, and any data sent with the request.
+		</p>
+		
+		<p>
+			You can also use your own custom key by just going to <a href=""/bounce/view/foobar"">/bounce/view/foobar</a> (replace foobar in the URL with your desired key). 
 		</p>
 		<p>
 			The view page will refresh itself every 15 seconds and pull down any data for your key on my server. 
 		</p>
 		<p>
-			This is currently quite limited. The post URL only allows POST requests. It only dumps the raw POST data, not headers or anything else. 
-		</p>
-		<p>
-			This web service is available via <a href=""https://netbounce.earlz.net"">HTTPS</a>. 
+			This web service is available via <a href=""https://netbounce.earlz.net"">HTTPS</a>. (not a self-signed certificate)
 			This can be handy for testing of clients which do not permit invalid certificates when sending to an HTTPS server.
 		</p>
 		<h1>Warnings</h1>
@@ -335,7 +336,7 @@ __Write(@"</a>
 			Do not send requests larger than 128Kb. I will discard them.
 		</p>
 		<p>
-			Yes, I know the HTTP error codes are completely incorrect right now. The MVC framework behind this, <a href=""https://bitbucket.org/earlz/lucidmvc"">LucidMVC</a>, is still pretty much pre-alpha. I'm surprised it works at all sometimes(although it is fast!)
+			Yes, I know the HTTP error codes are quite incorrect right now. The MVC framework behind this, <a href=""https://bitbucket.org/earlz/lucidmvc"">LucidMVC</a>, is still pretty much pre-alpha. I'm surprised it works at all sometimes(although it is fast!)
 		</p>
 		<p>
 			Please don't ruin the party by abusing this service. I have huge bandwidth limits and this puts very little load on my server. 
