@@ -1,17 +1,30 @@
 formatters = [];
-formatters.push({name: 'None', func: function(data, unescaped){return data;}});
+formatters.push({name: 'None', func: rawFormatter});
 formatters.push({name: 'XML formatter', func: xmlFormatter});
 formatters.push({name: 'JSON formatter', func: jsonFormatter});
 
-function xmlFormatter(data, unescaped){
-	src=vkbeautify.xml(unescaped).escape();
+function rawFormatter(req){
 	var expr = new RegExp("\n","g")
-    data=src.replace(expr,'<br />');
-	return '<pre onload="prettyPrint()" class="prettyprint">'+data+'</pre>';
+    data=req.data.replace(expr,'<br />');
+    m='<div>Method: '+req.method.escape()+'</div>';
+    h='<pre id="headers">'+req.headers.escape()+'</pre>';
+    
+    return m+h+'<p>'+data.escape()+'</p>';
 }
-function jsonFormatter(data, unescaped){
-	src=vkbeautify.json(unescaped).escape();
+
+function xmlFormatter(req){
+	src=vkbeautify.xml(req.data).escape();
 	var expr = new RegExp("\n","g")
     data=src.replace(expr,'<br />');
-	return '<pre onload="prettyPrint()" class="prettyprint">'+data+'</pre>';
+    m='<div>Method: '+req.method.escape()+'</div>';
+    h='<pre id="headers">'+req.headers.escape()+'</pre>';
+	return m+h+'<pre onload="prettyPrint()" class="prettyprint">'+data+'</pre>';
+}
+function jsonFormatter(req){
+	src=vkbeautify.json(req.data).escape();
+	var expr = new RegExp("\n","g")
+    data=src.replace(expr,'<br />');
+    m='<div>Method: '+req.method.escape()+'</div>';
+    h='<pre id="headers">'+req.headers.escape()+'</pre>';
+	return m+h+'<pre onload="prettyPrint()" class="prettyprint">'+data+'</pre>';
 }

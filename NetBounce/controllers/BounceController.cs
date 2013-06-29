@@ -7,14 +7,24 @@ using System.Threading;
 using System.Text;
 using Newtonsoft.Json;
 using Earlz.NetBounce.Views;
+using System.Web;
 
 namespace Earlz.NetBounce
 {
 	public class BounceController : HttpController 
 	{
+		public class Request
+		{
+			[JsonProperty("data")]
+			public string Data;
+			[JsonProperty("method")]
+			public string Method;
+			[JsonProperty("headers")]
+			public string Headers;
+		}
 		public class RequestData
 		{
-			public List<string> Data;
+			public List<Request> Requests;
 			public DateTime LastPosted;
 			public bool Received=false;
 			public int Size=0;
@@ -68,7 +78,7 @@ namespace Earlz.NetBounce
 				if(result==false)
 				{
 					data=new RequestData();
-					data.Data=new List<string>();
+					data.Requests=new List<Request>();
 					data.LastPosted=DateTime.Now;
 					if(!State.TryAdd(key, data))
 					{
@@ -88,8 +98,22 @@ namespace Earlz.NetBounce
 				{
 					throw new ApplicationException("Please try to restrain your content to 128K or less");
 				}
-				data.Data.Add(d);
-				data.Size+=d.Length;
+				var req=new Request();
+				req.Data=d;
+				StringBuilder sb=new StringBuilder();
+				foreach(var name in HttpContext.Current.Request.Headers.AllKeys) //LucidMVC doesn't expose this(probably because it's never needed)
+				{
+					foreach(var val in HttpContext.Current.Request.Headers.GetValues(name))
+					{
+						sb.Append(name);
+						sb.Append(": ");
+						sb.AppendLine(val);
+					}
+				}
+				req.Headers=sb.ToString();
+				req.Method=Context.HttpMethod;
+				data.Requests.Add(req);
+				data.Size+=d.Length+sb.Length;
 			}
 			return new WrapperView("received");
 		}
@@ -101,15 +125,15 @@ namespace Earlz.NetBounce
 			{
 				return new WrapperView("[]");
 			}
-			List<string> requests;
+			List<Request> requests;
 			lock(data)
 			{
-				if(data.Data.Count==0)
+				if(data.Requests.Count==0)
 				{
 					return new WrapperView("[]");
 				}
-				requests=data.Data;
-				data.Data=new List<string>();
+				requests=data.Requests;
+				data.Requests=new List<Request>();
 				data.Size=0;
 			}
 			string json=JsonConvert.SerializeObject(requests);

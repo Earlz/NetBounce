@@ -132,7 +132,7 @@ __OutputVariable(__v);
 __Write(@"', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div class=""data"">' + formatters[currentFormatter].func(data[i].escape(), data[i]) + '</div>');
+	    $('#output').append('<div class=""data"">' + formatters[currentFormatter].func(data[i]) + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);
