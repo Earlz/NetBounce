@@ -2,16 +2,25 @@
 {@
 	key as string;
 @}
-{!init Layout.Title="Viewing bounce of '"+key+"'"; !}
+{!init Layout.Title="Viewing bounce of '"+HttpUtility.HtmlEncode(key)+"'"; !}
 {!init Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js""></script>"; !}
 {!init Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; !}
 {!init Layout.ExtraScripts+=@"<script src=""/static/vkbeautify.js""></script>"; !}
-
-<div>formatter: 
-<p id="formatter_container">
+<div>
+<h1>Bounce of '{=HttpUtility.HtmlEncode(key)=}'</h1>
+<p>
+ You're viewing a bounce! Data here will refresh every 15 seconds. If you're sending a particular kind of data, you can use a Formatter to view the data more easily. 
 </p>
+<p>
+To post data to this bounce, use <a href="/bounce/post/{=HttpUtility.UrlEncode(key)=}">This URL</a>.
+</p>
+
 </div>
-<div>data will show up below</div>
+<div>formatter: 
+<span id="formatter_container">
+</span>
+</div>
+<p>data will show up below</p>
 <div id="output"></div>
 <script type="text/javascript">
 var currentFormatter=0;
@@ -43,7 +52,7 @@ var refresh=function(){
 	$.getJSON('/bounce/dequeue/{=key=}', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div id="data">' + formatters[currentFormatter].func(data[i].escape(), data[i]) + '</div>');
+	    $('#output').append('<div class="data">' + formatters[currentFormatter].func(data[i].escape(), data[i]) + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);

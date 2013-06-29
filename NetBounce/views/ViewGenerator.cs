@@ -59,12 +59,39 @@ __Write(@"
 __Write(@"
 ");
 __Write(@"
+<div>
+<h1>Bounce of '");
+{
+                object __v;
+                
 
-<div>formatter: 
-<p id=""formatter_container"">
+                    __v=HttpUtility.HtmlEncode(key);
+                
+__OutputVariable(__v);
+}
+__Write(@"'</h1>
+<p>
+ You're viewing a bounce! Data here will refresh every 15 seconds. If you're sending a particular kind of data, you can use a Formatter to view the data more easily. 
 </p>
+<p>
+To post data to this bounce, use <a href=""/bounce/post/");
+{
+                object __v;
+                
+
+                    __v=HttpUtility.UrlEncode(key);
+                
+__OutputVariable(__v);
+}
+__Write(@""">This URL</a>.
+</p>
+
 </div>
-<div>data will show up below</div>
+<div>formatter: 
+<span id=""formatter_container"">
+</span>
+</div>
+<p>data will show up below</p>
 <div id=""output""></div>
 <script type=""text/javascript"">
 var currentFormatter=0;
@@ -105,7 +132,7 @@ __OutputVariable(__v);
 __Write(@"', function(data) {
 	  for(var i=0;i<data.length;i++)
 	  {
-	    $('#output').append('<div id=""data"">' + formatters[currentFormatter].func(data[i].escape(), data[i]) + '</div>');
+	    $('#output').append('<div class=""data"">' + formatters[currentFormatter].func(data[i].escape(), data[i]) + '</div>');
 	  }
 	 
 	  setTimeout(refresh, 15*1000);
@@ -134,7 +161,7 @@ v.RenderView(__Writer);
         }
         public override void RenderView(System.IO.TextWriter outputStream)
         {
-Layout.Title="Viewing bounce of '"+key+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/vkbeautify.js""></script>"; 
+Layout.Title="Viewing bounce of '"+HttpUtility.HtmlEncode(key)+"'"; Layout.ExtraScripts=@"<script src=""https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/formatters.js""></script>"; Layout.ExtraScripts+=@"<script src=""/static/vkbeautify.js""></script>"; 
 	__Writer=outputStream;
 	if(Layout==null){
         BuildOutput();
