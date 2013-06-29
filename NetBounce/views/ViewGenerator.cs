@@ -311,6 +311,9 @@ __OutputVariable(__v);
 __Write(@"</a>
 		</p>
 		<p>
+			You can also use your own key by just going to /bounce/view/foobar (where foobar is your key). 
+		</p>
+		<p>
 			The view page will refresh itself every 15 seconds and pull down any data for your key on my server. 
 		</p>
 		<p>
