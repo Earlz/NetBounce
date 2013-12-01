@@ -73,7 +73,7 @@ __OutputVariable(__v);
 }
 __Write(@"'</h1>
 <p>
- You're viewing a bounce! Data here will refresh every 15 seconds. If you're sending a particular kind of data, you can use a Formatter to view the data more easily. 
+ You're viewing a bounce! Data here will refresh every 5 seconds. If you're sending a particular kind of data, you can use a Formatter to view the data more easily. 
 </p>
 <p>
 To post data to this bounce, use <a href=""/bounce/post/");
@@ -99,16 +99,24 @@ __Write(@""">This URL</a>.
 var currentFormatter=0;
 setTimeout(function(){
 	var s = $('<select id=""formatselect""/>');
-
+    var hash=""None"";
+    if(window.location.hash){
+        hash=window.location.hash.substring(1);
+    }
 	for(var i=0;i<formatters.length;i++) {
 		item=formatters[i];
-	    $('<option />', {value: i, text: item.name}).appendTo(s);
+        if(hash === item.hash){
+            $('<option />', {value: i, text: item.name, selected: ""true""}).appendTo(s);
+        }else{
+            $('<option />', {value: i, text: item.name}).appendTo(s);
+        }
 	}
 	s.appendTo('#formatter_container'); // or wherever it should be
 	$(""#formatselect"").change(function(){
 	    currentFormatter=parseInt($(this).children("":selected"").val());
 	    return true;
 	});
+    $(""#formatselect"").trigger('change');
 },0);
 String.prototype.escape = function() {
     var tagsToReplace = {
@@ -137,7 +145,7 @@ __Write(@"', function(data) {
 	    $('#output').append('<div class=""data"">' + formatters[currentFormatter].func(data[i]) + '</div>');
 	  }
 	 
-	  setTimeout(refresh, 15*1000);
+	  setTimeout(refresh, 5*1000);
 	});
 };
 refresh();
@@ -321,8 +329,12 @@ __Write(@"</a>
 		<p>
 			You can also use your own custom key by just going to <a href=""/bounce/view/foobar"">/bounce/view/foobar</a> (replace foobar in the URL with your desired key). 
 		</p>
+        <p>
+            If you're constantly using this for testing of XML or JSON data, you can now specify a hash parameter for the formatter, instead of
+            having to manually click XML or JSON in the dropdown. Example, <a href=""/bounce/view/foobar#xml"">http://netbounce.earlz.net/bounce/view/foobar#xml</a>
+        </p>
 		<p>
-			The view page will refresh itself every 15 seconds and pull down any data for your key on my server. 
+			The view page will refresh itself every 5 seconds and pull down any data for your key on my server. 
 		</p>
 		<p>
 			This web service is available via <a href=""https://netbounce.earlz.net"">HTTPS</a>. (not a self-signed certificate)

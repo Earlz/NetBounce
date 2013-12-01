@@ -1,7 +1,8 @@
 formatters = [];
-formatters.push({name: 'None', func: rawFormatter});
-formatters.push({name: 'XML formatter', func: xmlFormatter});
-formatters.push({name: 'JSON formatter', func: jsonFormatter});
+formatters.push({name: 'None', hash: "none", func: rawFormatter});
+formatters.push({name: 'XML formatter', hash: "xml", func: xmlFormatter});
+formatters.push({name: 'JSON formatter', hash: "json", func: jsonFormatter});
+
 
 function rawFormatter(req){
 	var expr = new RegExp("\n","g")

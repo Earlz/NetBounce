@@ -33,3 +33,15 @@ The `req` parameter has three properties at the moment.
 # How it works
 
 Basically, the server holds an in-memory queue tied to the ID (or `key`) of your choosing. You can push to this queue by using `/bounce/put/foobar`} where `foobar` is your key. 
+
+# Compiling
+
+There is a prebuild event to automatically regenerate the T4 view templates. If using Visual Studio, you can remove this
+Just make sure to run the T4 template `ViewGenerator.tt` when changing the HTML views. Under Linux, I expect for there to
+be the file `/usr/local/bin/mono-t4`. You must add this in yourself. The contents for most Linux distros is this:
+
+    #!/bin/sh
+    mono /usr/lib/monodevelop/AddIns/MonoDevelop.TextTemplating/TextTransform.exe -o $1 $2
+    
+Make sure to make it executable. 
+ 

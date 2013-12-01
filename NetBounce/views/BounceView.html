@@ -10,7 +10,7 @@
 <div>
 <h1>Bounce of '{=HttpUtility.HtmlEncode(key)=}'</h1>
 <p>
- You're viewing a bounce! Data here will refresh every 15 seconds. If you're sending a particular kind of data, you can use a Formatter to view the data more easily. 
+ You're viewing a bounce! Data here will refresh every 5 seconds. If you're sending a particular kind of data, you can use a Formatter to view the data more easily. 
 </p>
 <p>
 To post data to this bounce, use <a href="/bounce/post/{=HttpUtility.UrlEncode(key)=}">This URL</a>.
@@ -27,16 +27,24 @@ To post data to this bounce, use <a href="/bounce/post/{=HttpUtility.UrlEncode(k
 var currentFormatter=0;
 setTimeout(function(){
 	var s = $('<select id="formatselect"/>');
-
+    var hash="None";
+    if(window.location.hash){
+        hash=window.location.hash.substring(1);
+    }
 	for(var i=0;i<formatters.length;i++) {
 		item=formatters[i];
-	    $('<option />', {value: i, text: item.name}).appendTo(s);
+        if(hash === item.hash){
+            $('<option />', {value: i, text: item.name, selected: "true"}).appendTo(s);
+        }else{
+            $('<option />', {value: i, text: item.name}).appendTo(s);
+        }
 	}
 	s.appendTo('#formatter_container'); // or wherever it should be
 	$("#formatselect").change(function(){
 	    currentFormatter=parseInt($(this).children(":selected").val());
 	    return true;
 	});
+    $("#formatselect").trigger('change');
 },0);
 String.prototype.escape = function() {
     var tagsToReplace = {
@@ -56,7 +64,7 @@ var refresh=function(){
 	    $('#output').append('<div class="data">' + formatters[currentFormatter].func(data[i]) + '</div>');
 	  }
 	 
-	  setTimeout(refresh, 15*1000);
+	  setTimeout(refresh, 5*1000);
 	});
 };
 refresh();
