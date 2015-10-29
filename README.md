@@ -8,10 +8,6 @@ It supports viewing the headers and HTTP method of the request as well as any da
 
 You can see a live version of this in action at http://netbounce.earlz.net
 
-You can also use the SSL live version of this at https://netbounce.earlz.net
-
-The SSL live version has a valid SSL certificate and is especially useful for testing of secure clients which can't handle SSL errors
-
 # Formatters
 
 You can add a new formatter by changing `formatters.js`. I currently have Raw, JSON, and XML implemented. If you want to implement a new one all you have to do is add on to formatters.js. 
